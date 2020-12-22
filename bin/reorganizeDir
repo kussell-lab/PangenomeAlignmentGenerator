@@ -1,0 +1,34 @@
+#!user/bin/env python3
+import glob
+import os
+# parser = argparse.ArgumentParser(description="Fetchs SRA files from NCBI and stores as zip files for use later")
+# parser.add_argument("accession_list", help="a list of read accessions of which SRA files can be downloaded from NCBI SRA database")
+# parser.add_argument("working_dir", help="the working space and output directory")
+# parser.add_argument("--tmp", help="Can specify the directory for temp files created by fasterq-dump \
+#                                     (may speed up downloads)")
+# ##define commandline args as variables
+# args = parser.parse_args()
+# accession_list_file = args.accession_list
+# wrkdir = args.working_dir
+# tmp = args.tmp
+
+def mkdir_p(dir):
+    'make a directory if doesnt exist'
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
+refgenlist = glob.glob("*_genomic.fna")
+
+file = open("genome_list", "w+")
+i = 0
+for refgen in refgenlist:
+    name = str.split(refgen, "_genomic")
+    genomename = name[0]
+    file.write(genomename+"\n")
+    i = i + 1
+    mkdir_p(genomename)
+    os.replace(refgen, genomename+"/"+refgen)
+
+    ##make folder for genome ...
+file.close()
+print("%d total genomes" % i)

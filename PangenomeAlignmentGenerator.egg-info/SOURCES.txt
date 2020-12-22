@@ -1,0 +1,8 @@
+setup.py
+PangenomeAlignmentGenerator.egg-info/PKG-INFO
+PangenomeAlignmentGenerator.egg-info/SOURCES.txt
+PangenomeAlignmentGenerator.egg-info/dependency_links.txt
+PangenomeAlignmentGenerator.egg-info/top_level.txt
+bin/InvokeProkka
+bin/InvokeRoary
+bin/reorganizeDir
