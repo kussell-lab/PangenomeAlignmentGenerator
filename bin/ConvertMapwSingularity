@@ -15,7 +15,7 @@ function map2reference {
     WORKING_DIR=$2
     REFERENCE=$3
     LABEL=pileup
-    sra_file=${WORKING_DIR}/${READ}
+    sra_file=${READ}
     singularity exec /home/aps376/sra-tools.sif fasterq-dump ${sra_file}
     singularity exec /home/aps376/smalt.sif smalt map -n 1 ${REFERENCE} ${WORKING_DIR}/${READ}_1.fastq ${WORKING_DIR}/${READ}_2.fastq | \
         samtools sort -T /tmp -o ${WORKING_DIR}/${READ}.sorted.bam
