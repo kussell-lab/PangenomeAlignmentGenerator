@@ -1,15 +1,9 @@
+#!/usr/bin/env python3
 """
 Fetch genome sequences from NCBI FTP.
-Create by Mingzhi Lin (mingzhi9@gmail.com).
-Inputs:
-(1) ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/assembly_summary_refseq.txt;
-(2) assembly accession list file; search for assemblies in NCBI, select the Send to option when viewing search results,
-then select Choose Destination: File, and Format: ID Table (text). This will give the right format
-(3) output directory.
-Usage:
-    python FetchGenomes.py <assembly_summary_refseq.txt> <assembly accession list file> <output directory>
+Created by Mingzhi Lin (mingzhi9@gmail.com) with edits by Asher Preska Steinberg (apsteinberg@nyu.edu)
 """
-import sys
+import argparse
 import gzip
 import os
 import ftplib
@@ -19,10 +13,19 @@ def main():
     """
     main function
     """
+    parser = argparse.ArgumentParser(description="Fetch genome sequences from NCBI FTP")
+    parser.add_argument("NCBI_refseq_list", help="NCBI file listing all genome assemblies;\
+     ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/assembly_summary_refseq.txt")
+    parser.add_argument("assembly_tsv", help="assembly accession list file; search for assemblies in NCBI,\
+                                                        select the Send to option when viewing search results,\
+                                                        then select Choose Destination: File, and Format: ID Table (text).\
+                                                         This will give the right format")
+    parser.add_argument("out_dir", help="output directory")
     # parse command arguments.
-    assembly_summary_file = sys.argv[1]
-    assembly_accession_list_file = sys.argv[2]
-    out_dir = sys.argv[3]
+    args = parser.parse_args()
+    assembly_summary_file = args.NCBI_refseq_list
+    assembly_accession_list_file = args.assembly_tsv
+    out_dir = args.out_dir
 
     # read the list of assembly accessions.
     # assembly_accession_set = set()
