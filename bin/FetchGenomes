@@ -46,6 +46,11 @@ def main():
                 else:
                     assembly_accession_set.add(accession)
 
+    ##save as a list for next step with Prokka
+    with open("assembly_accession_list", "w+") as f:
+        for accession in assembly_accession_set:
+            f.write("%s\n" % accession)
+
     # read assembly summary report file, which is a TAB file,
     # and obtain a hashmap of accession:ftp path.
     assembly_ftp_paths = {}
