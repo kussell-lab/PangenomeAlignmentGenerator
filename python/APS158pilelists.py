@@ -2,7 +2,7 @@
 import os
 import numpy as np
 
-dir = '/Users/asherpreskasteinberg/Desktop/code/recombo/APS158_SP_multirefgen/'
+dir = '/Users/asherpreskasteinberg/Desktop/code/recombo/APS159_NG_Analysis/'
 outdir = dir+'piles_tbc/'
 complete = set()
 # piles = open(dir + 'APS156_completepiles_tars', 'r')
@@ -12,7 +12,7 @@ complete = set()
 
 all_fastqs = set()
 
-dwnlds = open(dir + 'APS156_full_SRA_list', 'r')
+dwnlds = open(dir + 'APS159_SRR_Acc_List.txt', 'r')
 #dwnlds = open(dir + 'APS154_blankpiles', 'r')
 for _, sra in enumerate(dwnlds):
     sra = str.rstrip(sra)
@@ -23,7 +23,7 @@ tbc = all_fastqs.difference(complete)
 
 tbc = list(tbc)
 
-split_tbc = np.array_split(tbc, 200)
+split_tbc = np.array_split(tbc, 100)
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)

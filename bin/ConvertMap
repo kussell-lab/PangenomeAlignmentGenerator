@@ -16,6 +16,7 @@ function map2reference {
     REFERENCE=$3
     LABEL=pileup
     sra_file=${WORKING_DIR}/${READ}/${READ}.sra
+    prefetch ${READ}
     fastq-dump -O ${WORKING_DIR} --split-3 ${sra_file}
     smalt map -n 1 ${REFERENCE} ${WORKING_DIR}/${READ}_1.fastq ${WORKING_DIR}/${READ}_2.fastq | \
         samtools sort -T /tmp -o ${WORKING_DIR}/${READ}.sorted.bam
