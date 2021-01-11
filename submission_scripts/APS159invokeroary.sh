@@ -4,10 +4,10 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --time=12:00:00
 #SBATCH --mem=4GB
-#SBATCH --job-name=APS159prokka
+#SBATCH --job-name=APS159roary
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=aps376@nyu.edu
-#SBATCH --output=APS159prokka_slurm%j.out
+#SBATCH --output=APS159roary_slurm%j.out
 
 
 ##INPUTS
@@ -37,7 +37,7 @@ module load singularity/3.6.4
 
 ##aliases for singularity
 #source `which env_parallel.bash`
-alias roary='singularity exec /scratch/work/public/singularity/roary-3.13.0.sif roary'
+#alias roary='singularity exec /scratch/work/public/singularity/roary-3.13.0.sif roary'
 #alias prokka='singularity exec /scratch/work/public/singularity/prokka-1.14.5.sif prokka'
 #alias prefetch='singularity exec /home/aps376/sra-tools.sif prefetch'
 #alias smalt='singularity exec /home/aps376/smalt.sif smalt'

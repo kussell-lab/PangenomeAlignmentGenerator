@@ -31,6 +31,8 @@ parallel copy_gff_file {} ${prokka_dir} ${roary_gff_dir} :::: ${accession_list}
 ncpu=`nproc`
 echo "Running Roary in quiet mode"
 logfile="roary.log"
-roary -v -p $ncpu -f ${roary_dir} ${roary_gff_dir}/*.gff -e -n &> $logfile
+##if you're not running on NYU HPC, replace ${roary} with "roary"
+roary='singularity exec /scratch/work/public/singularity/roary-3.13.0.sif roary'
+${roary} -v -p $ncpu -f ${roary_dir} ${roary_gff_dir}/*.gff -e -n &> $logfile
 mv $logfile ${roary_dir}
 echo "Completed running Roary, see log file in ${roary_dir}/roary.log"
