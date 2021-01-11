@@ -14,9 +14,10 @@
 jobdir=/scratch/aps376/recombo/APS159prokka
 #list=/scratch/aps376/recombo/APS158_fetchSRA/APS156_full_SRA_list
 WRKD=/scratch/aps376/recombo/APS159_NG_Archive
-OUTDIR=${WRKD}/prokka
+prokka=${WRKD}/prokka
 list=${WRKD}/assembly_accession_list
 genomes=${WRKD}/genome_assemblies
+roary_dir=${WRKD}/roary
 
 mkdir -p ${OUTDIR}
 
@@ -36,7 +37,7 @@ module load singularity/3.6.4
 
 ##aliases for singularity
 #source `which env_parallel.bash`
-#alias roary='singularity exec /home/aps376/roary_latest.sif roary'
+alias roary='singularity exec /scratch/work/public/singularity/roary-3.13.0.sif roary'
 #alias prokka='singularity exec /scratch/work/public/singularity/prokka-1.14.5.sif prokka'
 #alias prefetch='singularity exec /home/aps376/sra-tools.sif prefetch'
 #alias smalt='singularity exec /home/aps376/smalt.sif smalt'
@@ -59,6 +60,6 @@ export LC_ALL=C
 
 echo "let's rock"
 cd ${WRKD}
-InvokeProkka ${list} ${genomes} ${OUTDIR}
+InvokeRoary ${list} ${prokka} ${roary_dir}
 
 
