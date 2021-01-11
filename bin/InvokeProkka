@@ -10,9 +10,10 @@
 function invoke_prokka() {
     genome=$1
     workspace=$2
+    prokka='singularity exec /scratch/work/public/singularity/prokka-1.14.5.sif prokka'
     genomefile=$3/$genome/${genome}_genomic.fna
    # genomefile=$3/$genome/*.fna
-    prokka --cpus 1 --force --centre X --compliant --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
+    ${prokka} --cpus 1 --force --centre X --compliant --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
    #prokka --cpus 1 --kingdom Bacteria --genus Streptococcus --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
 }
 export -f invoke_prokka
