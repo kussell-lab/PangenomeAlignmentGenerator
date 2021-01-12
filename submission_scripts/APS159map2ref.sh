@@ -17,8 +17,8 @@ mkdir -p $WRKDIR
 
 
 ##will change to 0 to 9 once confirmed that it werks
-#for line in {1..99}
-for line in 0
+for line in {1..99}
+#for line in 0
 do
   echo "submitting list ${line}"
   jobfile=$SUBMITDIR/APS156map2ref_${line}.sh

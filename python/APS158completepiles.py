@@ -2,7 +2,7 @@ import glob
 import os
 
 pileupList = glob.glob('*.pileup.fasta')
-file = open('APS156_completepiles', 'w+')
+file = open('APS159_completepiles', 'w+')
 i = 0
 for pileup in pileupList:
     size = os.stat(pileup).st_size
