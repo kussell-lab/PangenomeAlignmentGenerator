@@ -84,7 +84,10 @@ def main():
             ftp_file_path = os.path.join(ftp_path, base_name + appendix)
             local_gzip_file = os.path.join(assembly_out_dir, accession + appendix)
             with open(local_gzip_file, 'wb') as out:
-                ftp.retrbinary('RETR ' + ftp_file_path, out.write)
+                try:
+                    ftp.retrbinary('RETR ' + ftp_file_path, out.write)
+                except EOFError as e:
+                    print("%s for %s" % (e, accession))
             # unzip file
             local_text_file = local_gzip_file.replace(".gz", "")
             with open(local_text_file, 'wb') as out:

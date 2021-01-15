@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	app := kingpin.New("clusterSplit", "split MSA into MSA files for each sequence cluster; option to run on both CORE and FLEX MSA files")
+	app := kingpin.New("ClusterSplit", "split MSA into MSA files for each sequence cluster; option to run on both CORE and FLEX MSA files")
 	app.Version("v20210113")
 	alnFile := app.Arg("MSA", "multi-sequence alignment file").Required().String()
 	outdir := app.Arg("outdir", "output directory for cluster MSA files").Required().String()

@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	app := kingpin.New("splitGenome", "splits a master MSA file of all strains into core and flexible genomes")
+	app := kingpin.New("SplitGenome", "splits a master MSA file of all strains into core and flexible genomes")
 	app.Version("v20210112")
 	alnFile := app.Arg("master_MSA", "multi-sequence alignment file for all genes").Required().String()
 	sampleFile := app.Arg("strain list", "list of all strains").Required().String()
