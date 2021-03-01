@@ -1,5 +1,6 @@
 package main
 
+// author: Asher Preska Steinberg
 import (
 	"bufio"
 	"encoding/csv"

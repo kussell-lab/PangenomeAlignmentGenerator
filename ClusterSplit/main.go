@@ -1,5 +1,7 @@
 package main
 
+//this program splits MSA into MSA files for each sequence cluster
+//written by Asher Preska Steinberg (apsteinberg@nyu.edu)
 import (
 	"bufio"
 	"fmt"
