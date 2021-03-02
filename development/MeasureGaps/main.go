@@ -12,7 +12,6 @@ import (
 	"runtime"
 	"strings"
 	"sync"
-	"time"
 )
 
 func main() {
@@ -32,7 +31,7 @@ func main() {
 	//alnFile := "/Volumes/aps_timemachine/recombo/APS160_splitGenome/1224_properheader"
 	//numDigesters := 20
 
-	start := time.Now()
+	//start := time.Now()
 	//done channel will close when we're done reading alignments
 	done := make(chan struct{})
 	//read in alignments
@@ -76,10 +75,13 @@ func main() {
 	fracAligned := (totLength - totGaps) / totLength
 	//average aligned fraction for each gene
 	avgAligned := sumFrac / numGenes
+	fmt.Printf("Statistics for MSA file: %s\n", *alnFile)
+	fmt.Print("-------------------------------\n")
 	fmt.Printf("Total aligned fraction: %f\n", fracAligned)
 	fmt.Printf("Aligned fraction per gene: %f\n", avgAligned)
-	duration := time.Since(start)
-	fmt.Println("Time to measure sequence gaps:", duration)
+	fmt.Print("-------------------------------\n")
+	//duration := time.Since(start)
+	//fmt.Println("Time to measure sequence gaps:", duration)
 }
 
 // readAlignments reads sequence alignment from a extended Multi-FASTA file,
@@ -141,7 +143,7 @@ type result struct {
 // then sends these processed results on alnChan until either the master MSA or done channel is closed.
 func MeasureGaps(done <-chan struct{}, alignments <-chan Alignment, genes chan<- result, id int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	fmt.Printf("Worker %d starting\n", id)
+	//fmt.Printf("Worker %d starting\n", id)
 	for aln := range alignments { // HLpaths
 		//total number of gaps for a gene sequence
 		var totGaps float64
@@ -174,7 +176,7 @@ func MeasureGaps(done <-chan struct{}, alignments <-chan Alignment, genes chan<-
 			return
 		}
 	}
-	fmt.Printf("Worker %d done\n", id)
+	//fmt.Printf("Worker %d done\n", id)
 
 }
 
