@@ -22,7 +22,7 @@ func main() {
 	flexAlnFile := app.Arg("flex-MSA", "multi-sequence alignment file for the flexible genome").Required().String()
 	outdir := app.Arg("outdir", "output directory for the 'flexible' genome sampled from core genes").Required().String()
 	ncpu := app.Flag("num-cpu", "Number of CPUs (default: using all available cores)").Default("0").Int()
-	numDigesters := app.Flag("threads", "Number of alignments to process at a time (default: 8)").Default("8").Int()
+	numDigesters := app.Flag("threads", "Number of alignments to process at a time (default: 20)").Default("20").Int()
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 	if *ncpu == 0 {
@@ -44,13 +44,11 @@ func main() {
 	//get the number of core alignments
 	lenCore := getNumberOfAlignments(*coreAlnFile)
 	//start a fixed number of goroutines to read alignments and split into core/flex
-	//make sure there aren't multiple accesses to the core genome file at once
-	var mutex = &sync.Mutex{}
 	c := make(chan Alignment)
 	var wg sync.WaitGroup
 	for i := 0; i < *numDigesters; i++ {
 		wg.Add(1)
-		go resampleCoreAln(done, flexAln, *coreAlnFile, lenCore, c, i, &wg, mutex)
+		go resampleCoreAln(done, flexAln, *coreAlnFile, lenCore, c, i, &wg)
 	}
 
 	go func() {
@@ -60,9 +58,9 @@ func main() {
 	//end of pipeline; write files
 	for rgene := range c {
 		//fmt.Print(gene.ID)
-		mutex.Lock()
+		//mutex.Lock()
 		writeMSA(rgene, *outdir)
-		mutex.Unlock()
+		//mutex.Unlock()
 	}
 	if err := <-errc; err != nil { // HLerrc
 		panic(err)
@@ -103,7 +101,7 @@ func readAlignments(done <-chan struct{}, file string) (<-chan Alignment, <-chan
 		if err != nil {
 			panic(err)
 		}
-		//defer f.Close()
+		defer f.Close()
 		xmfaReader := seq.NewXMFAReader(f)
 		numAln := 0
 		for {
@@ -126,7 +124,7 @@ func readAlignments(done <-chan struct{}, file string) (<-chan Alignment, <-chan
 				}
 			}
 		}
-		f.Close()
+		//f.Close()
 		errc <- err
 	}()
 	return alignments, errc
@@ -149,7 +147,7 @@ func getCoreAln(file string, lenCore int) (coreAln chan Alignment) {
 		if err != nil {
 			panic(err)
 		}
-		//defer f.Close()
+		defer f.Close()
 		xmfaReader := seq.NewXMFAReader(f)
 		//start the count
 		count := 0
@@ -188,7 +186,7 @@ func mustOpen(file string) (f *os.File) {
 // resampleCoreAln reads flexible gene alignments, makes a map of strains with that gene,
 // then grabs a core gene and grabs all the gene alignments for the strains in the map
 // then sends this resampled alignment on genes until the flexible MSA or done channel is closed
-func resampleCoreAln(done <-chan struct{}, alignments <-chan Alignment, coreAlnFile string, lenCore int, rgenes chan<- Alignment, id int, wg *sync.WaitGroup, mutex *sync.Mutex) {
+func resampleCoreAln(done <-chan struct{}, alignments <-chan Alignment, coreAlnFile string, lenCore int, rgenes chan<- Alignment, id int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	//fmt.Printf("Worker %d starting\n", id)
 	for aln := range alignments { // HLpaths
@@ -199,9 +197,9 @@ func resampleCoreAln(done <-chan struct{}, alignments <-chan Alignment, coreAlnF
 			strainMap[strain] = true
 		}
 		//grab a random core gene
-		mutex.Lock()
+		//mutex.Lock()
 		coreAlnChan := getCoreAln(coreAlnFile, lenCore)
-		mutex.Unlock()
+		//mutex.Unlock()
 		coreAln := <-coreAlnChan
 		fmt.Printf("\r Resampling from: %s\n", coreAln.ID)
 		// ... and only grab gene alignments in strainMap
@@ -263,7 +261,7 @@ func readXMFA(file string) chan []seq.Sequence {
 		if err != nil {
 			panic(err)
 		}
-		//defer f.Close()
+		defer f.Close()
 
 		rd := seq.NewXMFAReader(f)
 		for {
@@ -279,7 +277,7 @@ func readXMFA(file string) chan []seq.Sequence {
 				c <- a
 			}
 		}
-		f.Close()
+		//f.Close()
 	}()
 	return c
 }
@@ -293,12 +291,12 @@ func writeMSA(c Alignment, outdir string) {
 	if err != nil {
 		panic(err)
 	}
-	//defer f.Close()
+	defer f.Close()
 	for _, s := range c.Sequences {
 		f.WriteString(">" + s.Id + "\n")
 		f.Write(s.Seq)
 		f.WriteString("\n")
 	}
 	f.WriteString("=\n")
-	f.Close()
+	//f.Close()
 }
