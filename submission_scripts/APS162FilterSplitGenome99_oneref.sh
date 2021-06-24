@@ -1,20 +1,25 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=20
-#SBATCH --time=24:00:00
-#SBATCH --mem=8GB
-#SBATCH --job-name=APS162reduce
+#SBATCH --cpus-per-task=16
+#SBATCH --time=1:00:00
+#SBATCH --mem=4GB
+#SBATCH --job-name=APS162filtersplit
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=aps376@nyu.edu
-#SBATCH --output=APS162reducecore_slurm%j.out
+#SBATCH --output=APS162filtersplit_singleref99_slurm%j.out
 
 
 ##INPUTS
-jobdir=/scratch/aps376/recombo/APS162reducedcore
-cutoff=90
-ARCHIVE=/scratch/aps376/recombo/APS160_SP_Archive/corethreshold${cutoff}
-OUTDIR=/scratch/aps376/recombo/APS162_SP_Archive/corethreshold${cutoff}
+jobdir=/scratch/aps376/recombo/APS162filtersplit
+#list=/scratch/aps376/recombo/APS158_fetchSRA/APS156_full_SRA_list
+WRKD=/scratch/aps376/recombo/APS158_spneumoniae
+ARCHIVE=/scratch/aps376/recombo/APS156_SP_Archive
+MSA=${ARCHIVE}/SP_MASTER_OUT/MSA_SP_MASTER
+list=${jobdir}/APS156_finalpile
+cutoff=99
+OUTDIR=/scratch/aps376/recombo/APS162_SP_Archive/APS156corethreshold${cutoff}
+
 mkdir -p ${OUTDIR}
 
 echo "Loading modules."
@@ -28,6 +33,8 @@ module load samtools/intel/1.11
 #module load muscle/intel/3.8.31
 #module load sra-tools/2.10.5
 #module load smalt/intel/0.7.6
+
+module load singularity/3.6.4
 
 ##Making the AssemblyAlignmentGenerator and ReferenceAlignmentGenerator in path
 echo "Making everything in path."
@@ -46,6 +53,5 @@ export LC_ALL=C
   #the '$1' command tells it to grab the argument of pipe_dream
 
 echo "let's rock"
-cd ${ARCHIVE}
-ReduceCoreGenome MSA_CORE MSA_FLEX ${OUTDIR}
+FilterSplitGenome ${MSA} ${list} ${cutoff} ${OUTDIR} --threads=16 --num-cpu=16
 
