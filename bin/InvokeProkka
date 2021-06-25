@@ -1,5 +1,5 @@
 # This script uses prokka to re-annotate genomes.
-# Create by Mingzhi Lin (mingzhi9@gmail.com).
+# Created by Mingzhi Lin (mingzhi9@gmail.com) with edits by Asher Preska Steinberg (apsteinberg@nyu.edu)
 # Usage:
 # bash InvokeProkka.sh <accession list file> <genome folder> <prokka output folder>
 # It requires
@@ -10,10 +10,9 @@
 function invoke_prokka() {
     genome=$1
     workspace=$2
-    prokka='singularity exec /scratch/work/public/singularity/prokka-1.14.5.sif prokka'
     genomefile=$3/$genome/${genome}_genomic.fna
    # genomefile=$3/$genome/*.fna
-    ${prokka} --cpus 1 --force --centre X --compliant --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
+    prokka --cpus 1 --force --centre X --compliant --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
    #prokka --cpus 1 --kingdom Bacteria --genus Streptococcus --outdir ${workspace}/${genome} --prefix ${genome} ${genomefile} --quiet
 }
 export -f invoke_prokka

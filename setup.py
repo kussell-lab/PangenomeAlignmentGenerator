@@ -15,14 +15,12 @@ setup(name='PangenomeAlignmentGenerator',
       author='Asher Preska Steinberg',
       author_email='apsteinberg@nyu.edu',
       packages=['bin'],
-      package_data={'': ['InvokeProkka', 'InvokeRoary', 'reorganizeDir',
-                         'Map2Pangenome', 'ConvertSRA2Fastq', 'ConvertMap',
-                         'ConvertMapwSingularity', 'FetchGenomes']},
+      package_data={'': ['InvokeProkka', 'InvokeRoary',
+                         'ConvertMap', 'FetchGenomes']},
       include_package_data=True,
       install_requires=requirements,
-      scripts=['bin/InvokeProkka', 'bin/InvokeRoary', 'bin/reorganizeDir',
-               'bin/Map2Pangenome', 'bin/ConvertSRA2Fastq', 'bin/ConvertMap',
-               'bin/ConvertMapwSingularity', 'bin/FetchGenomes']
+      scripts=['bin/InvokeProkka', 'bin/InvokeRoary',
+               'bin/ConvertMap', 'bin/FetchGenomes']
       # entry_points = {
       #     'console_scripts' : ['fetchnmap=map.cli:main'],
       #     }

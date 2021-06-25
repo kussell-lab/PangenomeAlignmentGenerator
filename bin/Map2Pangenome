@@ -1,9 +1,0 @@
-#!/bin/bash
-
-accession=$1
-working_dir=$2
-reference=$3
-
-smalt map -n 1 ${reference} ${working_dir}/${accession}_1.fastq ${working_dir}/${accession}_2.fastq | \
-samtools sort -T /tmp -o ${working_dir}/${accession}.sorted.bam
-samtools mpileup -f ${reference} ${working_dir}/${accession}.sorted.bam
