@@ -39,7 +39,7 @@ for core and accessory genes) this can be installed via `go get`:
 * `<output directory>` is the working space and output directory
 *  `<output_prefix>` is the output_prefix for the final pangenome alignment
 
-Output is an XMFA file (<output directory>/<output prefix>_pangenome.xmfa) containing the alignments of each sequence to the pangenome
+Output is an XMFA file (`<output directory>/<output prefix>_pangenome.xmfa`) containing the alignments of each sequence to the pangenome
 reference. You can then use `SplitGenome` to split this into XMFA files for core and accessory genes.
 
 It may be preferable to run each of the steps of this program separately (due to download issues, etc). You can view each step 
