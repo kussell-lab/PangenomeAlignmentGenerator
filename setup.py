@@ -20,7 +20,7 @@ setup(name='PangenomeAlignmentGenerator',
       include_package_data=True,
       install_requires=requirements,
       scripts=['bin/InvokeProkka', 'bin/InvokeRoary',
-               'bin/ConvertMap', 'bin/FetchGenomes']
+               'bin/ConvertMap', 'bin/FetchGenomes', 'bin/PangenomeAlignmentGenerate']
       # entry_points = {
       #     'console_scripts' : ['fetchnmap=map.cli:main'],
       #     }

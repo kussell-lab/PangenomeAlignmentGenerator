@@ -1,5 +1,5 @@
 # This script uses roary to create pan genome.
-# Created by Mingzhi Lin (mingzhi9@gmail.com).
+# Created by Mingzhi Lin (mingzhi9@gmail.com) with edits by Asher Preska Steinberg (apsteinberg@nyu.edu)
 # Usage:
 # bash InvokeRoary.sh <accession list file> <prokka folder> <roary folder>
 # It requires
